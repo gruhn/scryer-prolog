@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Push Docker Image
 
 on:
   push:
@@ -18,5 +18,5 @@ jobs:
       # Assuming here that new tags always correspond to higher versions. 
       # If a lower version tag is created, it will still receive the `latest` tag.
       run: |
-        echo '${{github.ref_name}}'
-        docker build . --file Dockerfile --tag gruhn/scryer-prolog:'${{github.ref_name}}' --tag gruhn/scryer-prolog:latest
+        IMAGE_TAG=$(echo '${{github.ref_name}}' | cut -c 2-)
+        docker build . --file Dockerfile --tag gruhn/scryer-prolog:$IMAGE_TAG --tag gruhn/scryer-prolog:latest
